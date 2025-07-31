@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +14,7 @@ public class ProductService {
 
     @Autowired
     ProductRepo productRepo;
+
     public List<Product> getProductList() {
         return productRepo.findAll();
     }
@@ -34,18 +34,23 @@ public class ProductService {
         return productRepo.save(product);
     }
 
-    public void updateProduct(int prodId) {
-        List<Product> productList = productRepo.findAll();
-        Product prd = null;
-        for (Product product : productList) {
-            if(product.getId() == prodId){
-                prd = product;
-            }
+    public void updateProduct(int prodId, Product product, MultipartFile image) {
+        try {
+            product.setImage(image.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        productRepo.save(prd);
+        product.setImageName(image.getOriginalFilename());
+        product.setImageType(image.getContentType());
+        productRepo.save(product);
+    }
+
+    public List<Product> getProductsBySearch(String keyword) {
+        return productRepo.getProductsBySearch(keyword);
     }
 
     public void deleteProduct(int id) {
         productRepo.deleteById(id);
     }
+
 }

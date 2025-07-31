@@ -1,6 +1,5 @@
 package com.example.practice.Model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +22,7 @@ public class Product{
     private BigDecimal price;
     private String category;
     private Date releaseDate;
-    private Boolean available;
+    private Boolean productAvailable;
     private int quantity;
     private String imageName;
     private String imageType;
